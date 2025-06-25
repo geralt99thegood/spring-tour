@@ -4,29 +4,25 @@ import com.example.springtour.model.UserListResponse;
 import com.example.springtour.model.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserService {
-    private final WebClient webClient;
+    private final RestTemplate restTemplate;
+    private static final String BASE_URL = "https://reqres.in/api";
 
     @Autowired
-    public UserService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://reqres.in/api").build();
+    public UserService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
-    public Mono<UserResponse> getUserById(int id) {
-        return webClient.get()
-                .uri("/users/{id}", id)
-                .retrieve()
-                .bodyToMono(UserResponse.class);
+    public UserResponse getUserById(int id) {
+        String url = BASE_URL + "/users/" + id;
+        return restTemplate.getForObject(url, UserResponse.class);
     }
 
-    public Mono<UserListResponse> getUsers(int page) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/users").queryParam("page", page).build())
-                .retrieve()
-                .bodyToMono(UserListResponse.class);
+    public UserListResponse getUsers(int page) {
+        String url = BASE_URL + "/users?page=" + page;
+        return restTemplate.getForObject(url, UserListResponse.class);
     }
 }

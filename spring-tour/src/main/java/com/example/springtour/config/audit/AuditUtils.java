@@ -1,4 +1,4 @@
-package java.com.example.springtour.config.audit;
+package com.example.springtour.config.audit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

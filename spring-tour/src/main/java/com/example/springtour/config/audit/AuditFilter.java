@@ -1,4 +1,4 @@
-package java.com.example.springtour.config.audit;
+package com.example.springtour.config.audit;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package java.com.example.springtour.config.audit;
+package com.example.springtour.config.audit;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

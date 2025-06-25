@@ -6,7 +6,6 @@ import com.example.springtour.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,16 +18,22 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<UserResponse>> getUserById(@PathVariable int id) {
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public ResponseEntity<UserResponse> getUserById(@PathVariable int id) {
+        UserResponse userResponse = userService.getUserById(id);
+        if (userResponse != null) {
+            return ResponseEntity.ok(userResponse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping
-    public Mono<ResponseEntity<UserListResponse>> getUsers(@RequestParam(defaultValue = "1") int page) {
-        return userService.getUsers(page)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public ResponseEntity<UserListResponse> getUsers(@RequestParam(defaultValue = "1") int page) {
+        UserListResponse userListResponse = userService.getUsers(page);
+        if (userListResponse != null) {
+            return ResponseEntity.ok(userListResponse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
